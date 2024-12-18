@@ -1,1 +1,1 @@
-Create jenkins pipeline
+Create jenkins pipeline challenge
