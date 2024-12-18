@@ -1,45 +1,28 @@
 pipeline {
     agent any
 
-    environment {
-        PATH = "$HOME/bin:/usr/local/bin:${env.PATH}"
-    }
-
     stages {
+        
+
         stage('Checkout') {
             steps {
                 deleteDir()
-                sh '''
-                echo "Cloning repository..."
-                git clone https://github.com/Awezzsayyad/Jenkins_challenge.git
-                '''
+                sh 'echo cloning repo'
+                sh 'git clone https://github.com/rarvez77/ansible-task.git' 
             }
         }
         
         stage('Terraform Apply') {
-    steps {
-        dir('Jenkins_challenge/path-to-terraform-files') {
-            sh '''
-            echo "Initializing Terraform..."
-            terraform init
-            terraform validate
-            terraform plan
-            terraform apply -auto-approve
-            '''
-        }
-    }
-}
-
-        stage('Terraform Apply') {
             steps {
-                dir('Jenkins_challenge/ansible-task') {
-                    sh '''
-                    echo "Initializing Terraform..."
-                    terraform init
-                    terraform validate
-                    terraform plan
-                    terraform apply -auto-approve
-                    '''
+                script {
+                    dir('/var/lib/jenkins/workspace/ansible-tf/ansible-task/') {
+                    sh 'pwd'
+                    sh 'terraform init'
+                    sh 'terraform validate'
+                    // sh 'terraform destroy -auto-approve'
+                    sh 'terraform plan'
+                    sh 'terraform apply -auto-approve'
+                    }
                 }
             }
         }
@@ -47,22 +30,9 @@ pipeline {
         stage('Ansible Deployment') {
             steps {
                 script {
-                    echo "Starting Ansible deployment..."
-                    ansiblePlaybook becomeUser: 'ec2-user', 
-                        credentialsId: 'amazonlinux', 
-                        disableHostKeyChecking: true, 
-                        installation: 'ansible', 
-                        inventory: 'Jenkins_challenge/ansible-task/inventory.ini', 
-                        playbook: 'Jenkins_challenge/ansible-task/amazon-playbook.yml', 
-                        vaultTmpPath: ''
-                        
-                    ansiblePlaybook become: true, 
-                        credentialsId: 'ubuntuuser', 
-                        disableHostKeyChecking: true, 
-                        installation: 'ansible', 
-                        inventory: 'Jenkins_challenge/ansible-task/inventory.ini', 
-                        playbook: 'Jenkins_challenge/ansible-task/ubuntu-playbook.yml', 
-                        vaultTmpPath: ''
+                   sleep '360'
+                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'amazonlinux', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/amazon-playbook.yml', vaultTmpPath: ''
+                    ansiblePlaybook become: true, credentialsId: 'ubuntuuser', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/ubuntu-playbook.yml', vaultTmpPath: ''
                 }
             }
         }
