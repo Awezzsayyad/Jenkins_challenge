@@ -43,7 +43,6 @@ pipeline {
                         sh 'ls -la'  // List files to confirm presence of Terraform configuration files
                         sh 'terraform init'
                         // sh 'terraform destroy -auto-approve'
-                        sh 'terraform plan'
                         sh 'terraform apply -auto-approve'
                     }
                 }
