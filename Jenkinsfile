@@ -34,8 +34,8 @@ pipeline {
             steps {
                 script {
                    sleep '360'
-                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'aws', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/amazon-playbook.yml', vaultTmpPath: ''
-                    ansiblePlaybook become: true, credentialsId: 'ubuntuuser', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/ubuntu-playbook.yml', vaultTmpPath: ''
+                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'Amazon_linux', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/amazon-playbook.yml', vaultTmpPath: ''
+                    ansiblePlaybook become: true, credentialsId: 'Ubuntu', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/Jenkins_challenge/ansible-task/ubuntu-playbook.yml', vaultTmpPath: ''
                 }
             }
         }
