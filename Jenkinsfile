@@ -53,7 +53,7 @@ pipeline {
             steps {
                 script {
                     sleep(time: 360, unit: 'SECONDS')
-                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'amazonlinux', disableHostKeyChecking: true, installation: 'ansible', inventory: 'ansible-task/inventory.yaml', playbook: 'ansible-task/amazon-playbook.yml'
+                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'aws', disableHostKeyChecking: true, installation: 'ansible', inventory: 'ansible-task/inventory.yaml', playbook: 'ansible-task/amazon-playbook.yml'
                     ansiblePlaybook become: true, credentialsId: 'ubuntuuser', disableHostKeyChecking: true, installation: 'ansible', inventory: 'ansible-task/inventory.yaml', playbook: 'ansible-task/ubuntu-playbook.yml'
                 }
             }
