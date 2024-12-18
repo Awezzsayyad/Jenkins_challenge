@@ -16,18 +16,19 @@ pipeline {
             }
         }
         
-        stage('Install Terraform') {
-            steps {
-                sh '''
-                echo "Installing Terraform..."
-                curl -O https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
-                unzip terraform_1.0.11_linux_amd64.zip
-                mkdir -p $HOME/bin
-                mv terraform $HOME/bin/
-                terraform --version
-                '''
-            }
+        stage('Terraform Apply') {
+    steps {
+        dir('Jenkins_challenge/path-to-terraform-files') {
+            sh '''
+            echo "Initializing Terraform..."
+            terraform init
+            terraform validate
+            terraform plan
+            terraform apply -auto-approve
+            '''
         }
+    }
+}
 
         stage('Terraform Apply') {
             steps {
