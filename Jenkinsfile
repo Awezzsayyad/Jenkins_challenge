@@ -15,17 +15,15 @@ pipeline {
         }
         
         stage('Install Terraform') {
-            steps {
-                sh '''
-                    if ! [ -x "$(command -v terraform)" ]; then
-                      echo "Installing Terraform..."
-                      curl -O https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
-                      unzip terraform_1.0.11_linux_amd64.zip
-                      sudo mv terraform /usr/local/bin/
-                    else
-                      echo "Terraform is already installed"
-                    fi
-                '''
+    steps {
+        sh '''
+        echo "Installing Terraform..."
+        curl -O https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
+        unzip terraform_1.0.11_linux_amd64.zip
+        mkdir -p $HOME/bin
+        mv terraform $HOME/bin/
+        export PATH=$HOME/bin:$PATH
+        '''
             }
         }
 
